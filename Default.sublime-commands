@@ -1,0 +1,15 @@
+[
+    {
+      "caption": "AizuOnlineJudge: Submit for Prompt", 
+      "command": "prompt_submit"
+    },
+    {
+      "caption": "AizuOnlineJudge: Submit",
+      "command": "submit",
+      "args": {"problem_no": "None"}
+    },
+    {
+      "caption": "AizuOnlineJudge: Create File", 
+      "command": "create_file"
+    }
+]

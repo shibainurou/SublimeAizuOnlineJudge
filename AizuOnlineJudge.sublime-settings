@@ -1,0 +1,17 @@
+/* Sublime AizuOnlineJudge default settings */
+{
+    // your user name
+    "user_name": "your user name",
+    // your password
+    "password": "your passward",
+    // 最後に実行したprogram_no
+    "last_exec_problem_no": "100005",
+    // 最後に実行した言語
+    "last_exec_language": "C++",
+    // 使用可能言
+    "available_syntax": ["C", "C++", "C#", "D", "Ruby", "Python", "PHP"],
+    // post map
+    "uri": "http://judge.u-aizu.ac.jp/onlinejudge",
+    "path_submit": "/servlet/Submit",
+    "path_result": "/webservice/status_log"
+}

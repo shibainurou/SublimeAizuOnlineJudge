@@ -1,0 +1,7 @@
+.git
+.hg
+
+*.pyc
+*.pyo
+
+.DS_Store
