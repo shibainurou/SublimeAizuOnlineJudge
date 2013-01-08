@@ -91,7 +91,7 @@ class JudgeRequest():
         return '<' + target + '>' + '([^<]+)' + '<\/' + target + '>'
 
 
-class PromptSubmitCommand(sublime_plugin.TextCommand):
+class PromptSubmitCommand(sublime_plugin.WindowCommand):
     def run(self):
         v = sublime.active_window().active_view()
         v.settings = sublime.load_settings('AizuOnlineJudge.sublime-settings')
