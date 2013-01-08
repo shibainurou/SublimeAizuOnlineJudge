@@ -1,6 +1,8 @@
 SublimeAizuOnlineJudge
 ======================
 
+English: https://github.com/shibainurou/SublimeAizuOnlineJudge/blob/master/README_en.md
+
 ## 概要
 AizuOnlineJudgeでの実行をサポートするSublimeText2 plugin
 
