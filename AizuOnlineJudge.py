@@ -121,7 +121,6 @@ class SubmitCommand(sublime_plugin.TextCommand):
 
         # submit
         res = aoj_request.submit(self.create_submit_query(view))
-        print res.read().replace('\n', '')
         res_body = res.read().replace('\n', '')
         res_body = re.sub(re.compile('<[^>]+>'), '', res_body)
         res_body = res_body.strip()
@@ -191,7 +190,7 @@ class SubmitCommand(sublime_plugin.TextCommand):
     def get_language(self, view):
         isFind = False
         for available_syntax in view.settings.get('available_syntax'):
-            if syntax_name(self.view) == available_syntax:
+            if syntax_name(self.view).upper() == available_syntax.upper():
                 isFind = True
                 break
 
@@ -199,11 +198,7 @@ class SubmitCommand(sublime_plugin.TextCommand):
             sublime.error_message(u'この言語は使用できません。')
             sys.exit()
 
-        syntax_map = {}
-        for syntax in view.settings.get('available_syntax'):
-            syntax_map[syntax] = syntax.upper()
-
-        return syntax_map[syntax_name(self.view)]
+        return available_syntax
 
     def get_userId(self, view):
         return view.settings.get('user_name')
@@ -257,13 +252,11 @@ class CreateFileCoreCommand(sublime_plugin.TextCommand):
         extname = self.EXTNAME_LANGUAGES_MAP[language.upper()]
         template_file_name = 'template' + extname
         template_path = sublime.packages_path() + '\\SublimeAizuOnlineJudge\\template'
-        print template_path
 
         new_file_view = sublime.active_window().active_view()
         new_file_view.set_syntax_file('Packages/' + language + '/' + language + '.tmLanguage')
 
         if not os.path.exists(template_path +  '\\' + template_file_name):
-            print template_path +  '\\' + template_file_name
             return
 
         f = open(template_path + '\\' + template_file_name)
