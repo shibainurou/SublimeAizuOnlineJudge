@@ -15,8 +15,12 @@ Change the user_name and password from the `AizuOnlineJudge.sublime-settings`
 
 **Submit**
 
-If you get the problem_id from the name of the file, you use the "AizuOnlineJudge: Submit".
-If you get the problem_id from the input panel, you use the "AizuOnlineJudge: Submit for Prompt".
+If you get the problem_id from the name of the file, you use the `AizuOnlineJudge: Submit`.
+
+If you get the problem_id from the input panel, you use the `AizuOnlineJudge: Submit for Prompt`.
 
 **Create file**
+
 Template file is into `Packages\SublimeAizuOnlineJudge\template`.
+
+Open a new file using a template. `AizuOnlineJudge: Create File`
