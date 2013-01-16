@@ -101,7 +101,7 @@ class PromptSubmitCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, text):
         try:
-            problem_no = int(text)
+            problem_no = text
             if self.window.active_view():
                 self.window.active_view().run_command('submit', {'problem_no': problem_no})
         except ValueError:
