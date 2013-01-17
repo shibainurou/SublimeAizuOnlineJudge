@@ -1,9 +1,5 @@
 /* Sublime AizuOnlineJudge default settings */
 {
-    // your user name
-    "user_name": "your user name",
-    // your password
-    "password": "your passward",
     // 最後に実行したprogram_no
     "last_exec_problem_no": "100005",
     // 最後に実行した言語

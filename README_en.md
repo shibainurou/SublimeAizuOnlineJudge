@@ -9,6 +9,13 @@ This is Online Programming Challenge: http://judge.u-aizu.ac.jp/onlinejudge/
 
 ## Settings
 Change the user_name and password from the `AizuOnlineJudge.sublime-settings`
+`Perferences -> Package Settings -> AizuOnlineJudge -> Settings – User` 
+```
+{
+    "user_name": "your user name",
+    "password": "your passward"
+}
+```
 
 ## Usage
 `ctrl+shift+p` show Command Palette.

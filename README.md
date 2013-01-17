@@ -18,9 +18,9 @@ gitコマンドが使える場合："Packagesフォルダ"にリポジトリを�
 "Packagesフォルダ"の場所:
 
 
-* Windows:
+* Windows:(`win+r` でファイル名を指定して実行ウインドウ表示させに下記をコピペすればOK）
 
-        C:\Users\(ユーザー名)\AppData\Roaming\Sublime Text 2\Packages\
+        %HOME%\AppData\Roaming\Sublime Text 2\Packages\
         
 * OS X:
 
@@ -31,7 +31,14 @@ gitコマンドが使える場合："Packagesフォルダ"にリポジトリを�
         ~/.config/sublime-text-2/Packages/
 
 ## 設定
-`Perferences -> Package Settings -> AizuOnlineJudge -> Settings – Default`から`user_name`, `password`を変更する。
+`Perferences -> Package Settings -> AizuOnlineJudge -> Settings – User`に下記をコピペして`user_name`, `password`を変更する。
+
+```
+{
+    "user_name": "your user name",
+    "password": "your passward"
+}
+```
 
 ## 使い方
 `ctrl + shift + p`で開く、コマンドパレットから実行
