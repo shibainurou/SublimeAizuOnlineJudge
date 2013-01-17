@@ -231,6 +231,7 @@ class CreateFileCoreCommand(sublime_plugin.TextCommand):
     EXTNAME_LANGUAGES_MAP = {
       'C': '.c',
       'C++': '.cpp',
+      'JAVA': '.java',
       'C#': '.cs',
       'D': '.d',
       'RUBY': '.rb',
@@ -240,6 +241,7 @@ class CreateFileCoreCommand(sublime_plugin.TextCommand):
     LANGUAGES_MAP = {
       'C': 'C',
       'C++': 'C++',
+      'JAVA': 'Java',
       'C#': 'C#',
       'D': 'D',
       'RUBY': 'Ruby',
