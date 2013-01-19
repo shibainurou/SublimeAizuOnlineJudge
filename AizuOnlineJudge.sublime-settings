@@ -9,5 +9,6 @@
     // post map
     "uri": "http://judge.u-aizu.ac.jp/onlinejudge",
     "path_submit": "/servlet/Submit",
-    "path_result": "/webservice/status_log"
+    "path_result": "/webservice/status_log",
+    "path_problem": "/webservice/problem_list"
 }

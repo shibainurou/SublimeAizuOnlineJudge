@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import xml.dom.minidom
 import urllib
 import os
 import sys
@@ -36,16 +37,20 @@ class JudgeRequest():
     memory = ""
     code_size = ""
 
+    time_limit = ''
+    memory_limit = ''
+
     uri = ''
     path_submit = ''
     path_result = ''
+    path_problem = ''
 
     # Error check OK
     # comlipe error, wrong anser, accepted
     status_msg = {
     'CompileError': u'提出されたプログラムのコンパイルに失敗しました。',
     'WrongAnswer': u'不正解です。\n提出されたプログラムは審判データと異なる出力データを生成しました。',
-    'TimeLimitExceeded': u',制限時間を超えました。不正解です。\n問題に指定された制限時間内にプログラムが終了しませんでした。',
+    'TimeLimitExceeded': u'制限時間を超えました。不正解です。\n問題に指定された制限時間内にプログラムが終了しませんでした。',
     'MemoryLimitExceeded': u'制限メモリ使用量を超えました。不正解です。\n提出されたプログラムは、問題に指定された以上のメモリを使用しました。',
     'Accepted': u'正解です。',
     'OutputLimitExceeded': u'提出されたプログラムは、制限を越えたサイズの出力を行いました。',
@@ -57,6 +62,7 @@ class JudgeRequest():
         self.uri = view.settings.get('uri')
         self.path_submit = view.settings.get('path_submit')
         self.path_result = view.settings.get('path_result')
+        self.path_problem = view.settings.get('path_problem')
 
     def submit(self, data):
         res = self.post(self.path_submit, data)
@@ -78,6 +84,27 @@ class JudgeRequest():
         self.cputime = re.compile(self.extract('cputime')).search(data).group(1)
         self.memory = re.compile(self.extract('memory')).search(data).group(1)
         self.code_size = re.compile(self.extract('code_size')).search(data).group(1)
+
+    def create_problem_info(self, view, problem_no):
+        volume = ''
+        if len(problem_no) == 5:
+            volume = '100'
+        else:
+            volume = problem_no[0:2]
+
+        post_map ={
+        'volume': volume
+        }
+
+        problem_list_xml = self.get(self.path_problem, urllib.urlencode(post_map)).read()      
+        dom = xml.dom.minidom.parseString(problem_list_xml)
+
+        for problem in dom.getElementsByTagName('problem'):
+            id = problem.getElementsByTagName('id').item(0).childNodes[0].data.strip()
+            if id == problem_no:
+                self.time_limit = problem.getElementsByTagName('problemtimelimit').item(0).childNodes[0].data.strip()
+                self.memory_limit = problem.getElementsByTagName('problemmemorylimit').item(0).childNodes[0].data.strip()
+                break
 
     def post(self, send_path, data):
         res = urllib.urlopen(self.uri + send_path, data)
@@ -113,11 +140,13 @@ class SubmitCommand(sublime_plugin.TextCommand):
     problem_no = None
 
     def run(self, edit, problem_no):
+        # file名から取る場合はself.problem_no = None
+        self.problem_no = problem_no
+
         view = sublime.active_window().active_view()
         view.settings = sublime.load_settings('AizuOnlineJudge.sublime-settings')
 
         aoj_request = JudgeRequest(view)
-        self.problem_no = problem_no
 
         # submit
         res = aoj_request.submit(self.create_submit_query(view))
@@ -130,25 +159,45 @@ class SubmitCommand(sublime_plugin.TextCommand):
             return
 
         # wait result of server
+        aoj_request.create_problem_info(view, self.get_problem_no())
+
         sleep_time = 0.5
+        sleep_total_time = 0
         for x in xrange(self.RETRY_COUNT):
             time.sleep(sleep_time)
 
             aoj_request.submit_result(self.get_status_query(view))
             # 最大で+10秒まで実行される
-            exec_time = datetime.timedelta(seconds=13)
+            exec_time = datetime.timedelta(seconds=10)
 
+            # 今回submitしたものが取得できているかチェック
             if (not (aoj_request.language == self.get_language(view) and
                  dt.now() < aoj_request.submission_date + exec_time)):
-                sleep_time = sleep_time + 1
+
+                if int(aoj_request.time_limit) + 1 < sleep_total_time:
+                    break
+                
+                sleep_time += 1
+                sleep_total_time += sleep_time
+                if sleep_total_time > 10:
+                    sleep_time = sleep_total_time - 10
                 continue
 
-            cpu_sec = int(aoj_request.cputime) / 100
-            sublime.message_dialog((aoj_request.status + '\n' + aoj_request.status_msg[aoj_request.status] + '\n' +
-                                    u'cputime : ' + unicode(cpu_sec).encode('utf-8') + u' sec\n' +
-                                    u'memory : ' + aoj_request.memory + u' Kbytes' + '\n'
-                                    u'code size :' + aoj_request.code_size + u' bytes'))
+            # submitしたものが取れた
             break
+
+        if int(aoj_request.time_limit) + 1 < sleep_total_time:
+            sublime.message_dialog('TimeLimitExceeded' + '\n' +
+                                   aoj_request.status_msg['TimeLimitExceeded'] + '\n' + 
+                                   u'limit time : ' + aoj_request.time_limit + u' sec')
+
+        else:
+            cpu_sec = int(aoj_request.cputime) / 100
+            sublime.message_dialog((aoj_request.status + '\n' + 
+                                   aoj_request.status_msg[aoj_request.status] + '\n' +
+                                   u'cputime : ' + unicode(cpu_sec).encode('utf-8') + u' sec\n' +
+                                   u'memory : ' + aoj_request.memory + u' Kbytes' + '\n'
+                                   u'code size :' + aoj_request.code_size + u' bytes'))
 
         # save last problem no
         view.settings.set('last_exec_problem_no', aoj_request.problem_id)
@@ -268,4 +317,3 @@ class CreateFileCoreCommand(sublime_plugin.TextCommand):
         new_file_view.insert(edit, 0, template)
         
 
-        
