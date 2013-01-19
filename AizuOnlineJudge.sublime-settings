@@ -5,7 +5,7 @@
     // 最後に実行した言語
     "last_exec_language": "C++",
     // 使用可能言
-    "available_syntax": ["C", "C++", "JAVA","C#", "D", "Ruby", "Python", "PHP"],
+    "available_syntax": ["C", "C++", "JAVA","C#", "D", "Ruby", "Python", "PHP", "JavaScript"],
     // post map
     "uri": "http://judge.u-aizu.ac.jp/onlinejudge",
     "path_submit": "/servlet/Submit",

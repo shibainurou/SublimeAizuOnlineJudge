@@ -285,7 +285,8 @@ class CreateFileCoreCommand(sublime_plugin.TextCommand):
       'D': '.d',
       'RUBY': '.rb',
       'PYTHON': '.py',
-      'PHP': '.php'
+      'PHP': '.php',
+      'JAVASCRIPT': '.js'
     }
     LANGUAGES_MAP = {
       'C': 'C',
@@ -295,7 +296,8 @@ class CreateFileCoreCommand(sublime_plugin.TextCommand):
       'D': 'D',
       'RUBY': 'Ruby',
       'PYTHON': 'Python',
-      'PHP': 'PHP'
+      'PHP': 'PHP',
+      'JAVASCRIPT': 'JavaScript',
     }
 
     def run(self, edit, language):
