@@ -7,8 +7,11 @@ English: https://github.com/shibainurou/SublimeAizuOnlineJudge/blob/master/READM
 AizuOnlineJudgeでの実行をサポートするSublimeText2 plugin
 
 ## インストール方法
-Package Controlには登録されていないので手動でインストールします。
+**Package Controlが使える**
+`ctrl+shift+p`でコマンドパレットを表示
+`Package Control: Install Package`を選択後、`Aizu Online Judge`を選択してインストール
 
+**Package Controlが使えない**
 gitコマンドが使えない場合：Zipファイルをダウンロードして"Packagesフォルダ"に解凍、フォルダ名を`SublimeAizuOnlineJudge`に変更してください
 
 gitコマンドが使える場合："Packagesフォルダ"にリポジトリをクローンしてください。
